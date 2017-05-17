@@ -25,5 +25,15 @@ $(document).ready(function() {
     angle: 20,
     padding: 10
     }));
+
+
+    canvases.canvas1.on('mouse:down', function() {
+        if(this.getActiveObject()) {
+            activeObject  = $.extend({}, this.getActiveObject());
+            initialCanvas = this.lowerCanvasEl.id;
+        }
+    });
+    
+    
   
 });
