@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    var JSONData = [];
 
     //jQuery ajax to load JSON data from given URL
     $.ajax({
@@ -7,6 +6,10 @@ $(document).ready(function () {
         dataType: "json"
     }).done(function (data) {
         createNewDropDown(data, "container", "Please select id", "dropDown1");
+        $('#dropDown1').on("change", function () {
+            $('#container2').empty();
+            toggleDropdownOnSelectedValue(data, "container2", this.value, "dropDown2");
+        });
     });
 
     /**
@@ -15,7 +18,7 @@ $(document).ready(function () {
     function createNewDropDown(data, containerId, defaultText, ddId) {
         var newSelect = document.createElement('select');
         var selectHTML = "";
-        
+
         //Specific condition for first dropdown, is it is having defaultText with "Please select" string
         if (ddId == "dropDown1") {
 
@@ -28,6 +31,32 @@ $(document).ready(function () {
         newSelect.id = ddId;
         newSelect.innerHTML = selectHTML;
         $('#' + containerId).append(newSelect);
+    }
+
+    /**
+     * Function to toggle second dropdown list as per even/odd selected value from first dropdown
+     */
+    function toggleDropdownOnSelectedValue(data, containerId, selectedValue, ddId) {
+
+        var myNewArray = [];
+
+        if (parseInt(selectedValue) % 2 === 0) {
+            // creating new array with all even numbers for even selected value
+            var even = function (num) {
+                return num.id % 2 === 0;
+            };
+            myNewArray = data.filter(even);
+
+        } else {
+            // creating new array with all odd numbers for odd selected value
+            var odd = function (num) {
+                return num.id % 2 !== 0;
+            };
+            myNewArray = data.filter(odd);
+        }
+
+        // Reusing createDropDown function to create second dropdown
+        createNewDropDown(myNewArray, containerId, selectedValue, ddId);
     }
 
 });
