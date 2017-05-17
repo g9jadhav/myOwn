@@ -17,10 +17,10 @@ $(document).ready(function() {
      * Adding circle to canvas2
      */
     canvases.canvas1.add(new fabric.Rect({
-    left: 100,
-    top: 50,
-    width: 100,
-    height: 100,
+    left: 20,
+    top: 20,
+    width: 50,
+    height: 50,
     fill: '#CCC',
     angle: 20,
     padding: 10
@@ -32,7 +32,26 @@ $(document).ready(function() {
             activeObject  = $.extend({}, this.getActiveObject());
             initialCanvas = this.lowerCanvasEl.id;
         }
+    }); 
+    
+    canvases.canvas2.on('mouse:down', function() {
+        if(this.getActiveObject()) {
+            activeObject  = $.extend({}, this.getActiveObject());
+            initialCanvas = this.lowerCanvasEl.id;
+        }
     });
+    
+    $(document).on('mouseup', function(evt) {
+        if(evt.target.localName === 'canvas' && initialCanvas) {
+            canvasId = $(evt.target).siblings().attr('id');
+            if(canvasId !== initialCanvas) {
+                canvases[canvasId].add(activeObject);
+                canvases[canvasId].renderAll();
+            }
+        }
+        initialCanvas = '';
+        activeObject  = {};                 
+    });   
     
     
   
