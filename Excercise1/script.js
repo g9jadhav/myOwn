@@ -20,13 +20,21 @@ $(document).ready(function () {
         var selectHTML = "";
 
         //Specific condition for first dropdown, is it is having defaultText with "Please select" string
-        if (ddId == "dropDown1") {
+        if (ddId !== "titleBox") {
 
-            selectHTML += "<option>" + defaultText + "</option>";
+            if (ddId == "dropDown1") {
 
-        }
-        for (var j = 0; j < data.length; j++) {
-            selectHTML += "<option value='" + data[j].id + "'>" + data[j].id + "</option>";
+                selectHTML += "<option>" + defaultText + "</option>";
+
+            }
+            for (var j = 0; j < data.length; j++) {
+                selectHTML += "<option value='" + data[j].id + "'>" + data[j].id + "</option>";
+            }
+
+        }else{
+            for (var j = 0; j < data.length; j++) {
+                selectHTML += "<option value='" + data[j].title + "'>" + data[j].title + "</option>";
+            }
         }
         newSelect.id = ddId;
         newSelect.innerHTML = selectHTML;
@@ -57,6 +65,18 @@ $(document).ready(function () {
 
         // Reusing createDropDown function to create second dropdown
         createNewDropDown(myNewArray, containerId, selectedValue, ddId);
+        createTitleDD(myNewArray, containerId, selectedValue);
+    }
+
+    function createTitleDD(myNewArray, containerId, selectedValue){
+
+
+        var myNewArrayForTitle = [];
+        var title = function (num) {
+            return num.id === parseInt(selectedValue);
+        };
+        myNewArrayForTitle = myNewArray.filter(title);
+        createNewDropDown(myNewArrayForTitle, containerId, myNewArrayForTitle[0].title, "titleBox");
     }
 
 });
