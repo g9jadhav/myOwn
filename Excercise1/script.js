@@ -31,7 +31,7 @@ $(document).ready(function () {
                 selectHTML += "<option value='" + data[j].id + "'>" + data[j].id + "</option>";
             }
 
-        }else{
+        } else {
             for (var j = 0; j < data.length; j++) {
                 selectHTML += "<option value='" + data[j].title + "'>" + data[j].title + "</option>";
             }
@@ -65,10 +65,35 @@ $(document).ready(function () {
 
         // Reusing createDropDown function to create second dropdown
         createNewDropDown(myNewArray, containerId, selectedValue, ddId);
-        createTitleDD(myNewArray, containerId, selectedValue);
+        createTitleDD(data, myNewArray, containerId, selectedValue);
     }
 
-    function createTitleDD(myNewArray, containerId, selectedValue){
+    /*Function to creat text area
+    */
+    function createTextArea(data, containerId, selectedValue, textAreaId) {
+        if (selectedValue % 2 === 0) {
+            var text = function (num) {
+                return num.id === parseInt(selectedValue);
+            };
+            textArr = data.filter(text);
+            var newtextArea = document.createElement('textarea');
+            var textAreaHTML = "";
+            textAreaHTML += textArr[0].body;
+            newtextArea.id = textAreaId;
+            newtextArea.rows = "4";
+            newtextArea.cols = "50";
+            newtextArea.disabled = true;
+            newtextArea.innerHTML = textAreaHTML;
+            $('#' + containerId).append(newtextArea);
+
+        }
+    }
+
+    /**
+     * Function to create title dropdown
+     */
+
+    function createTitleDD(data, myNewArray, containerId, selectedValue) {
 
 
         var myNewArrayForTitle = [];
@@ -77,6 +102,18 @@ $(document).ready(function () {
         };
         myNewArrayForTitle = myNewArray.filter(title);
         createNewDropDown(myNewArrayForTitle, containerId, myNewArrayForTitle[0].title, "titleBox");
+        createTextArea(data, "container2", selectedValue, "ta1");
+        $('#dropDown2').on("change", function () {
+            $("#titleBox").remove();
+            $("#ta1").remove();
+            var value = this.value;
+            var title = function (num) {
+                return num.id == value;
+            };
+            myNewArrayForTitle = myNewArray.filter(title);
+            createNewDropDown(myNewArrayForTitle, containerId, myNewArrayForTitle[0].title, "titleBox");
+            createTextArea(data, "container2", selectedValue, "ta1");
+        });
     }
 
 });
