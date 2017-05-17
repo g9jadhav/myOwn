@@ -112,7 +112,7 @@ $(document).ready(function () {
             };
             myNewArrayForTitle = myNewArray.filter(title);
             createNewDropDown(myNewArrayForTitle, containerId, myNewArrayForTitle[0].title, "titleBox");
-            createTextArea(data, "container2", selectedValue, "ta1");
+            createTextArea(data, "container2", value, "ta1");
         });
     }
 
